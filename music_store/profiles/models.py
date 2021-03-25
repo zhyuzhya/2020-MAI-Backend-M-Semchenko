@@ -8,3 +8,6 @@ class Profile(models.Model):
     date_of_birth = models.DateField(verbose_name="Дата рождения", null=True, blank=True)
     email_address = models.EmailField(verbose_name="Адрес эл. почты", null=False, blank=False)
     password = models.CharField(max_length=32, verbose_name="Пароль", null=False, blank=False)
+
+    def __str__(self):
+        return f"{self.first_name} {self.second_name}"

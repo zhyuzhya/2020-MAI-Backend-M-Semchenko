@@ -16,13 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path, include
 
-from music_store.views import *
+from products import urls
+from producers import urls
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    re_path('api/profile/(\d+)/', profile_view),
-    path('api/products/', products_view),
-    re_path('api/product/(\d+)/', product_view),
-    path('api/categories/', categories_view),
-    re_path('api/category/(\d+)/', category_view),
+    path('api/admin/', admin.site.urls),
+    path('api/products/', include('products.urls')),
+    path('api/producers/', include('producers.urls')),
+    path('api/categories/', include('categories.urls')),
+    # path('api/profiles/', include('profiles.urls')),
 ]
+
