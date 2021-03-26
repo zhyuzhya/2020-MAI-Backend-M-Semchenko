@@ -8,7 +8,7 @@ class Product(models.Model):
     current_price = models.FloatField(verbose_name="Текущая стоимость")
     year = models.IntegerField(verbose_name="Год выпуска", null=True)
     color = models.CharField(max_length=64, verbose_name="Цвет", null=True)
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='products')
     producer = models.ForeignKey(Producer, on_delete=models.PROTECT, null=True)
 
     def __str__(self):

@@ -21,7 +21,7 @@ from producers import urls
 
 
 urlpatterns = [
-    path('api/admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('api/products/', include('products.urls')),
     path('api/producers/', include('producers.urls')),
     path('api/categories/', include('categories.urls')),

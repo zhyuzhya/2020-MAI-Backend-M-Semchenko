@@ -4,9 +4,9 @@ from .views import *
 # Create your views here.
 
 urlpatterns = [
-    re_path('(\d+)/', product_view),
-    re_path('add/(\w+)/', product_add),
-    re_path('search/(\w+)/', product_search),
-    path('', products_view),
+    re_path('(\d+)/', ProductView.as_view()),
+    re_path('add/(\w+)/', ProductAdd.as_view()),
+    re_path('search/(\w+)/', ProductSearch.as_view()),
+    path('', ProductsView.as_view()),
 
 ]

@@ -1,55 +1,44 @@
 from django.shortcuts import render
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
 from django.http import HttpResponse, JsonResponse
 from products.models import Product, Producer
+from .serializer import ProducerSerializer
 
 # Поиск поставщика и его продуктов по его ID
-def producer_view(request, producer_id):
-    if request.method == 'GET' or request.method == 'POST':
+class ProducerView(APIView):
+    def get(self, request, producer_id):
         try:
-            cur_producer = Producer.objects.get(id=producer_id)
-            try:
-                products = Product.objects.all().filter(producer=cur_producer)
-                s = []
-                for p in products:
-                    s.append(f"{p.name}, id = {p.id}")
-                if len(s) > 0:
-                    return JsonResponse({f"Found products of this producer ({cur_producer.name})": s})
-                else:
-                    return JsonResponse({f"No products of this producer": cur_producer.name})
-            except Product.DoesNotExist:
-                return JsonResponse({f"No products of this producer": cur_producer.name})
+            producer = Producer.objects.get(id=producer_id)
+            serializer = ProducerSerializer(producer)
+            if producer.name:
+                return Response({ f"Producer #{producer_id}": serializer.data})
         except Producer.DoesNotExist:
-            return JsonResponse({"No such producer": producer_id})
+            return Response({"No such producer": producer_id})
 
 # Ссылка на всех поставщиков
-def producers_view(request):
+class ProducersView(APIView):
+    def get(self, request):
         producers = Producer.objects.all()
-        s = []
-        for p in producers:
-            s.append(f"{p.name}, id = {p.id}")
-        return JsonResponse({"All producers": s})
+        serializer = ProducerSerializer(producers, many=True)
+        return Response({"All producers": serializer.data})
 
 # Добавить поставщика
-def producer_add(request, producer_name):
-    if request.method == 'GET' or request.method == 'POST':
-        try:
-            Producer(name=producer_name).save()
-        except Exception as e:
-            return JsonResponse({"Can't save producer": str(e)})
-        return JsonResponse({"Producer created": producer_name})
+class ProducerAdd(APIView):
+    def post(self, request, new_producer):
+        form = ProducerForm(request.POST)
+        if form.is_valid():
+            producer = form.save()
+            return Response({'error': None, 'result': 'success'})
 
 # Поиск поставщика по подстроке его имени
-def producer_search(request, producer_name):
-    if request.method == 'GET' or request.method == 'POST':
+class ProducerSearch(APIView):
+    def get(self, request, producer_name):
         try:
             producers = Producer.objects.all().filter(name__contains=producer_name)
-            s = []
-            for p in producers:
-                s.append(f"{p.name}, id = {p.id}")
-            if len(s) > 0:
-                return JsonResponse({"Found producers": s})
-            else:
-                return JsonResponse({"No such producer": producer_name})
+            serializer = ProducerSerializer(producers, many=True)
+            return Response({"Found producers": serializer.data})
         except Exception as e:
-            return JsonResponse({"Error": str(e)})
+            return Response({"Error": str(e)})
