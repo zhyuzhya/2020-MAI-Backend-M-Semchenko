@@ -30,7 +30,7 @@ SECRET_KEY = '0jf82dv%4s5_+445zfh7655)&b#yo4+d9%@9s=qjd(1*psuz3$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['backend']
+ALLOWED_HOSTS = ['backend', '192.168.1.102']
 
 
 # Application definition
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'profiles',
     'categories',
     'producers',
+    'social_django',
 ]
 
 DATE_INPUT_FORMATS = ['%d-%m-%Y']
@@ -59,6 +60,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.vk.VKOAuth2',
+    'social_core.backends.gitlab.GitLabOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
 ]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -79,6 +87,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
             ],
         },
     },
@@ -147,4 +156,18 @@ AWS_S3_ENDPOINT_URL=env('AWS_S3_ENDPOINT_URL')
 AWS_ACCESS_KEY_ID=env('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY=env('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME=env('AWS_STORAGE_BUCKET_NAME')
+
+SOCIAL_AUTH_VK_OAUTH2_KEY=env('SOCIAL_AUTH_VK_OAUTH2_KEY')
+SOCIAL_AUTH_VK_OAUTH2_SECRET=env('SOCIAL_AUTH_VK_OAUTH2_SECRET')
+SOCIAL_AUTH_URL_NAMESPACE='social'
+SOCIAL_AUTH_VK_OAUTH2_SCOPE=['email']
+
+SOCIAL_AUTH_GITLAB_KEY=env('SOCIAL_AUTH_GITHUB_OAUTH2_KEY')
+SOCIAL_AUTH_GITLAB_SECRET=env('SOCIAL_AUTH_GITHUB_OAUTH2_SECRET')
+SOCIAL_AUTH_GITLAB_SCOPES=['email']
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = '/api/products'
+LOGOUT_URL = 'logout'
+LOGOUT_REDIRECT_URL = 'login'
 

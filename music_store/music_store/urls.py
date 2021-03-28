@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from django.contrib.auth import views as auth_views
+from .views import login_view
 
 from products import urls
 from producers import urls
@@ -27,6 +29,9 @@ urlpatterns = [
     path('api/products/', include('products.urls')),
     path('api/producers/', include('producers.urls')),
     path('api/categories/', include('categories.urls')),
+    path('login/', login_view, name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('social_auth/', include('social_django.urls', namespace='social')),
     # path('api/profiles/', include('profiles.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

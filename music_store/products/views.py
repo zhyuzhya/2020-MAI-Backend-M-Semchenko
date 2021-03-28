@@ -2,6 +2,8 @@ from django.shortcuts import render
 
 from django.http import HttpResponse, JsonResponse
 from django.template.response import TemplateResponse
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.renderers import TemplateHTMLRenderer
@@ -31,13 +33,15 @@ class ProductsView(APIView):
         tmp = 'products/index.html'
         products = Product.objects.all()
         serializer = ProductSerializer(products, many=True)
-        return TemplateResponse(request, tmp, {'products': serializer.data})
+        return TemplateResponse(request, tmp, {'products': serializer.data, 'user': request.user})
 
 # Добавление нового продукта
 class ProductAdd(APIView):
+    @method_decorator(login_required)
     def get(self, request):
         form = ProductForm()
         return TemplateResponse(request, 'products/add_product.html', {'form': form})
+    @method_decorator(login_required)
     def post(self, request):
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():

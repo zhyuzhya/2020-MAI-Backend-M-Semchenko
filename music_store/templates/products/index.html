@@ -3,7 +3,12 @@
         <title>List of products</title>
     </head>
     <body>
-        <h1>List of products</h1>
+        <h1>List of products {% if user.username %}
+            for <a href="{% url 'login' %}">{{ user.username}}</a>
+            {% else %}
+            <a href="{% url 'login' %}">(not logged in...)</a>
+            {% endif %} </h1>
+        <h2><a href="{% url 'product_add' %}">Add a new product (for authorized users)</a></h2>
         <table>
             <tr>
                 <td>Name of product</td>

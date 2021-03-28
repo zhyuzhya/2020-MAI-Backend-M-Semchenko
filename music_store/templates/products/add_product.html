@@ -1,3 +1,4 @@
+<h2><a href="{% url 'all_products' %}">Back to all products</a></h2>
 <form action="/api/products/add/" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <p>Name: {{form.name}}<p>

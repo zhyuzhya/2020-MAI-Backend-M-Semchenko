@@ -7,6 +7,7 @@
         {% for product in products %}
         <div>
             <h2>{{ product.name }}</h2>
+            <h3><a href="{% url 'all_products'%}">Back to list of products</a></h3>
             <p>Current price is {{ product.current_price }} rub.</p>
             <form action="" method="post" enctype="multipart/form-data">
                 <input type="submit" name="product_id" value="{{product.id}}">

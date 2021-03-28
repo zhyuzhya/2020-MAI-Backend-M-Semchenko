@@ -1,0 +1,27 @@
+<html>
+    <body>
+        <h1>OAuth2-authorization</h1>
+        <h2> Current user: {% if user.username %}
+            {{ user.username}}
+            {% else %}
+            not logged in...
+            {% endif %}
+        </h2>
+        <button>
+            <a href="{% url 'social:begin' 'vk-oauth2' %}">Login via VK</a>
+        </button>
+        <br>
+        <br>
+        <button>
+            <a href="{% url 'social:begin' 'gitlab'%}">Login via GitLab</a>
+        </button>
+        <br>
+        <br>
+        <button>
+            <a href="{% url 'logout' %}">Logout</a>
+        </button>
+        <br>
+        <br>
+        <h2><a href="{% url 'all_products' %}">To the store!</a><h2>
+    </body>
+</html>
