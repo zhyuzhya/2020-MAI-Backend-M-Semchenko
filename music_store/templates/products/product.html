@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>Product</title>
+    </head>
+    <body>
+        <h1>This product is...</h1>
+        {% for product in products %}
+        <div>
+            <h2>{{ product.name }}</h2>
+            <p>Current price is {{ product.current_price }} rub.</p>
+            <form action="" method="post" enctype="multipart/form-data">
+                <input type="submit" name="product_id" value="{{product.id}}">
+            </form>
+            <p><img src="{{product.picture}}"></img></p>
+        </div>
+        {% endfor %}
+    </body>
+</html>

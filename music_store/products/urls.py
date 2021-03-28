@@ -7,6 +7,7 @@ urlpatterns = [
     re_path('(\d+)/', ProductView.as_view()),
     re_path('add/(\w+)/', ProductAdd.as_view()),
     re_path('search/(\w+)/', ProductSearch.as_view()),
+    path('add/', ProductAdd.as_view()),
     path('', ProductsView.as_view()),
 
 ]

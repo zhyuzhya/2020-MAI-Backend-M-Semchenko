@@ -1,0 +1,10 @@
+<form action="/api/products/add/" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <p>Name: {{form.name}}<p>
+    <p>Category: {{form.category}}<p>
+    <p>Producer: {{form.producer}}<p>
+    <p>Color: {{form.color}}<p>
+    <p>Price: {{form.current_price}} rub.<p>
+    <p>Image: {{form.picture}}<p>
+    <input type="submit" value="Submit">
+</form>

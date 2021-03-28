@@ -1,0 +1,20 @@
+<html>
+    <head>
+        <title>List of products</title>
+    </head>
+    <body>
+        <h1>List of products</h1>
+        <table>
+            <tr>
+                <td>Name of product</td>
+                <td>Current price</td>
+            </tr>
+        {% for product in products %}
+            <tr>
+                <td><a href="{{ product.absolute_url }}">{{ product.name }}</a></td>
+                <td>{{ product.current_price }} rub.</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </body>
+</html>
